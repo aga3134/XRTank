@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot name="xr_tank" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find xr_tank)/robot_model/materials.xacro" />
+  <xacro:include filename="$(find xr_tank)/robot_model/xr_tank_common.xacro" />
+  <xacro:include filename="$(find xr_tank)/robot_model/xr_tank_vehicle.urdf.xacro" />
+  <xacro:include filename="$(find xr_tank)/robot_model/xr_tank_pan_tilt_cam.urdf.xacro" />
+  <xacro:include filename="$(find xr_tank)/robot_model/xr_tank_arm.urdf.xacro" />
+  <xacro:include filename="$(find xr_tank)/robot_model/xr_tank.gazebo" />
+
+  <joint name="joint_body_to_cam" type="fixed">
+      <parent link="vehicle_body"/>
+      <child link="pan_tilt_root"/>
+      <origin xyz="0 ${-0.5*(body_y-pan_box_y)} ${0.5*body_z}" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_arm_to_body" type="fixed">
+      <parent link="vehicle_body"/>
+      <child link="arm_root"/>
+      <origin xyz="${0.5*(body_x-arm_a_x)} 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>

@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<robot name="topower_v1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="body_x" value="0.3"/>
+    <xacro:property name="body_y" value="0.15"/>
+    <xacro:property name="body_z" value="0.1"/>
+    <xacro:property name="body_mass" value="0.5"/>
+
+    <xacro:property name="ctl_box_x" value="0.1"/>
+    <xacro:property name="ctl_box_y" value="0.06"/>
+    <xacro:property name="ctl_box_z" value="0.08"/>
+    <xacro:property name="ctl_box_mass" value="0.2"/>
+
+    <xacro:property name="track_x" value="0.3"/>
+    <xacro:property name="track_y" value="0.04"/>
+    <xacro:property name="track_z" value="0.12"/>
+    <xacro:property name="track_mass" value="0.4"/>
+    
+
+    <xacro:property name="wheel_radius" value="0.06"/>
+    <xacro:property name="wheel_height" value="0.05"/>
+    <xacro:property name="wheel_mass" value="0.1"/>
+    <xacro:property name="wheel_offset_x" value="0.065"/>
+    <xacro:property name="wheel_offset_z" value="-0.01"/>
+    
+    <!-- ==================body======================= -->
+    <link name="vehicle_base" />
+    <xacro:box_link name="vehicle_body" size_x="${body_x}" size_y="${body_y}" size_z="${body_z}" mass="${body_mass}" material="white"/>
+    <xacro:box_link name="vehicle_ctl_box" size_x="${ctl_box_x}" size_y="${ctl_box_y}" size_z="${ctl_box_z}" mass="${ctl_box_mass}" material="black"/>
+
+    <joint name="joint_base_to_body" type="fixed">
+        <parent link="vehicle_base"/>
+        <child link="vehicle_body"/>
+        <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint_body_to_ctl_box" type="fixed">
+        <parent link="vehicle_body"/>
+        <child link="vehicle_ctl_box"/>
+        <origin xyz="${-0.5*ctl_box_x} ${0.5*(body_y-ctl_box_y)} ${0.5*(body_z+ctl_box_z)}" rpy="0 0 0"/>
+    </joint>
+
+
+    <!-- ==================wheel======================= -->
+    <xacro:cylinder_link name="wheel_l" radius="${wheel_radius}" height="${wheel_height}" mass="${wheel_mass}" material="black"/>
+    <xacro:cylinder_link name="wheel_r" radius="${wheel_radius}" height="${wheel_height}" mass="${wheel_mass}" material="black"/>
+    
+    <joint name="joint_wheel_l" type="continuous">
+        <parent link="vehicle_body"/>
+        <child link="wheel_l"/>
+        <axis xyz="0 0 1"/>
+        <origin xyz="${-wheel_offset_x} ${0.5*(body_y+wheel_height)} ${wheel_offset_z}" rpy="${PI*0.5} 0 0"/>
+    </joint>
+
+    <joint name="joint_wheel_r" type="continuous">
+        <parent link="vehicle_body"/>
+        <child link="wheel_r"/>
+        <axis xyz="0 0 1"/>
+        <origin xyz="${-wheel_offset_x} ${-0.5*(body_y+wheel_height)} ${wheel_offset_z}" rpy="${PI*0.5} 0 0"/>
+    </joint>
+
+    <!-- ==================track======================= -->
+    <xacro:box_link name="track_l" size_x="${track_x}" size_y="${track_y}" size_z="${track_z}" mass="${track_mass}" material="orange"/>
+    <xacro:box_link name="track_r" size_x="${track_x}" size_y="${track_y}" size_z="${track_z}" mass="${track_mass}" material="orange"/>
+
+    <joint name="joint_body_to_track_l" type="fixed">
+        <parent link="vehicle_body"/>
+        <child link="track_l"/>
+        <origin xyz="0 ${(body_y+track_y)*0.5} ${wheel_offset_z}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint_body_to_track_r" type="fixed">
+        <parent link="vehicle_body"/>
+        <child link="track_r"/>
+        <origin xyz="0 ${-(body_y+track_y)*0.5} ${wheel_offset_z}" rpy="0 0 0"/>
+    </joint>
+
+    <!-- ======================transitions=============================-->
+    <transmission name="tran_wheel_l">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_wheel_l">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor_wheel_l">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="tran_wheel_r">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_wheel_r">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor_wheel_r">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+</robot>
