@@ -3,7 +3,7 @@
   <!-- ros_control plugin -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/topower_v1</robotNamespace>
+      <robotNamespace>/xr_tank</robotNamespace>
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>
   </gazebo>
@@ -13,24 +13,16 @@
     <material>Gazebo/White</material>
   </gazebo>
 
-  <gazebo reference="vehicle_platform">
-    <material>Gazebo/Grey</material>
-  </gazebo>
-
   <gazebo reference="vehicle_ctl_box">
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="passive_wheel_l">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <material>Gazebo/White</material>
+  <gazebo reference="track_l">
+    <material>Gazebo/Orange</material>
   </gazebo>
 
-  <gazebo reference="passive_wheel_r">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <material>Gazebo/White</material>
+  <gazebo reference="track_r">
+    <material>Gazebo/Orange</material>
   </gazebo>
 
   <gazebo reference="wheel_l">
@@ -45,12 +37,22 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <!--=================pan tilt cam===================-->
-  <gazebo reference="pan_box">
-    <material>Gazebo/White</material>
+  <gazebo reference="passive_wheel_l">
+    <mu1>0.03</mu1>
+    <mu2>0.03</mu2>
+    <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="tilt_base">
+  <gazebo reference="passive_wheel_r">
+    <mu1>0.03</mu1>
+    <mu2>0.03</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  
+
+  <!--=================pan tilt cam===================-->
+  <gazebo reference="pan_box">
     <material>Gazebo/White</material>
   </gazebo>
 
@@ -88,7 +90,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>topower_v1/camera</cameraName>
+        <cameraName>xr_tank/camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link_optical</frameName>
@@ -110,14 +112,6 @@
   </gazebo>
 
   <!--=================arm===================-->
-  <gazebo reference="battery_box">
-    <material>Gazebo/Black</material>
-  </gazebo>
-
-  <gazebo reference="arm_base">
-    <material>Gazebo/White</material>
-  </gazebo>
-
   <gazebo reference="arm_a">
     <material>Gazebo/White</material>
   </gazebo>

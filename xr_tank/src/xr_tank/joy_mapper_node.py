@@ -2,7 +2,7 @@
 import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Joy
-from topower_v1.msg import CamPanTilt,ArmJoyCmd
+from xr_tank.msg import CamPanTilt,ArmJoyCmd
 from std_msgs.msg import Float64,Empty
 import math
 
@@ -13,7 +13,6 @@ class JoyMapper():
         self.panOffset = 0
         self.tiltOffset = 0
 
-        self.armBaseOffset = 0
         self.armAOffset = 0
         self.armBOffset = 0
         self.gripperBaseOffset = 0
@@ -50,11 +49,11 @@ class JoyMapper():
 
         self.sub = rospy.Subscriber("joy", Joy, self.JoyCallback)
         self.velPub = rospy.Publisher("cmd_vel",Twist,queue_size=1)
-        self.camPanPub = rospy.Publisher("/topower_v1/cam_pan_position_controller/command",Float64,queue_size=1)
-        self.camTiltPub = rospy.Publisher("/topower_v1/cam_tilt_position_controller/command",Float64,queue_size=1)
-        self.gripperPosPub = rospy.Publisher("/topower_v1/gripper_l_position_controller/command",Float64,queue_size=1)
+        self.camPanPub = rospy.Publisher("/xr_tank/cam_pan_position_controller/command",Float64,queue_size=1)
+        self.camTiltPub = rospy.Publisher("/xr_tank/cam_tilt_position_controller/command",Float64,queue_size=1)
+        self.gripperPosPub = rospy.Publisher("/xr_tank/gripper_l_position_controller/command",Float64,queue_size=1)
         self.armJoyCmdPub = rospy.Publisher("arm_joy_cmd",ArmJoyCmd,queue_size=1)
-        self.camSavePub = rospy.Publisher("/topower_v1/camera/capture",Empty,queue_size=1)
+        self.camSavePub = rospy.Publisher("/xr_tank/camera/capture",Empty,queue_size=1)
 
     def JoyCallback(self,msg):
         if self.mode == "car":
@@ -78,7 +77,6 @@ class JoyMapper():
                 self.camSavePub.publish()
 
         elif self.mode == "arm":
-            self.armBaseOffset = msg.axes[self.dirX]
             self.gripperBaseOffset = msg.axes[self.dirY]
             self.armAOffset = msg.axes[self.leftStickY]
             self.armBOffset = msg.axes[self.rightStickY]
@@ -121,7 +119,6 @@ class JoyMapper():
 
         
         cmd = ArmJoyCmd()
-        cmd.armBaseOffset = self.armBaseOffset
         cmd.armAOffset = self.armAOffset
         cmd.armBOffset = self.armBOffset
         cmd.gripperBaseOffset = self.gripperBaseOffset

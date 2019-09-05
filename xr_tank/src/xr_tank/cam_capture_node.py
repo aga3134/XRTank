@@ -21,8 +21,8 @@ class CamCapture():
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
         self.br = CvBridge()
-        self.pub = rospy.Publisher("/topower_v1/camera/image_raw/compressed",CompressedImage,queue_size=1)
-        self.sub = rospy.Subscriber("/topower_v1/camera/capture",Empty,self.CaptureImage)
+        self.pub = rospy.Publisher("/xr_tank/camera/image_raw/compressed",CompressedImage,queue_size=1)
+        self.sub = rospy.Subscriber("/xr_tank/camera/capture",Empty,self.CaptureImage)
         self.savePath = rospy.get_param("~savePath","captureImage/")
         self.frame = None
 

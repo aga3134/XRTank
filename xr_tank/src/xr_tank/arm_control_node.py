@@ -3,7 +3,7 @@ import sys
 import rospy
 import moveit_commander
 from moveit_msgs.msg import DisplayTrajectory
-from topower_v1.msg import ArmJoyCmd
+from xr_tank.msg import ArmJoyCmd
 from control_msgs.msg import FollowJointTrajectoryAction,FollowJointTrajectoryGoal
 from trajectory_msgs.msg import JointTrajectoryPoint
 import geometry_msgs
@@ -23,7 +23,7 @@ class ArmControl():
         self.endEffector = self.armGroup.get_end_effector_link()
 
         self.armJoyCmdSub = rospy.Subscriber("/arm_joy_cmd", ArmJoyCmd, self.ArmJoyCmdCallback)
-        self.armAC = actionlib.SimpleActionClient("/topower_v1/arm_controller/follow_joint_trajectory", FollowJointTrajectoryAction)
+        self.armAC = actionlib.SimpleActionClient("/xr_tank/arm_controller/follow_joint_trajectory", FollowJointTrajectoryAction)
         self.armAC.wait_for_server(timeout=rospy.Duration(10.0))
         self.jointState = self.armGroup.get_current_joint_values()
 
@@ -47,14 +47,14 @@ class ArmControl():
             self.GoToStandbyPose()
         elif msg.randomPose:
             self.GoToRandomPose()
-        elif msg.armBaseOffset != 0 or msg.armAOffset != 0 or msg.armBOffset != 0 or msg.gripperBaseOffset != 0:
+        elif msg.armAOffset != 0 or msg.armBOffset != 0 or msg.gripperBaseOffset != 0:
             #target = self.armGroup.get_current_joint_values()
             #rospy.loginfo("%f %f %f %f" % (target[0],target[1],target[2],target[3]))
             
 
             #send action goal directly from action client to skip motion planning
             goal = FollowJointTrajectoryGoal()
-            goal.trajectory.joint_names = ["joint_arm_base","joint_arm_a","joint_arm_b","joint_gripper_base"]
+            goal.trajectory.joint_names = ["joint_arm_a","joint_arm_b","joint_gripper_base"]
             #first point (original pose)
             point = JointTrajectoryPoint()
             point.positions = copy(self.jointState)
@@ -63,10 +63,9 @@ class ArmControl():
             
             #second point(pose after moving by joystick)
             scale = 0.05
-            self.jointState[0] += msg.armBaseOffset*scale
-            self.jointState[1] += msg.armAOffset*scale
-            self.jointState[2] += msg.armBOffset*scale
-            self.jointState[3] += msg.gripperBaseOffset*scale
+            self.jointState[0] += msg.armAOffset*scale
+            self.jointState[1] += msg.armBOffset*scale
+            self.jointState[2] += msg.gripperBaseOffset*scale
             point = JointTrajectoryPoint()
             point.positions = copy(self.jointState)
             point.time_from_start = rospy.Duration(0.03)
@@ -92,7 +91,7 @@ class ArmControl():
         rospy.loginfo("======go to standby pose")
         joint_goal = self.armGroup.get_named_target_values("standby")
         #rospy.loginfo(joint_goal)
-        self.jointState = [joint_goal["joint_arm_base"],joint_goal["joint_arm_a"],joint_goal["joint_arm_b"],joint_goal["joint_gripper_base"]]
+        self.jointState = [joint_goal["joint_arm_a"],joint_goal["joint_arm_b"],joint_goal["joint_gripper_base"]]
         self.armGroup.go(joint_goal, wait=True)
         self.armGroup.stop()
 

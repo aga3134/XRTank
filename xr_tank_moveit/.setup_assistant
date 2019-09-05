@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: xr_tank
+    relative_path: robot_model/xr_tank.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/xr_tank.srdf
+  CONFIG:
+    author_name: aga
+    author_email: aga3134@gmail.com
+    generated_timestamp: 1567667381

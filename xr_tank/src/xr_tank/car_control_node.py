@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from geometry_msgs.msg import Twist
-from topower_v1.msg import WheelDrive, CamPanTilt
+from xr_tank.msg import WheelDrive, CamPanTilt
 from std_msgs.msg import Float64
 import math
 
@@ -18,8 +18,8 @@ class CarControl():
         rospy.loginfo("use leftRatio=%f rightRatio=%f minPWM=%d maxPWM=%d minSpeed=%f" % (self.leftRatio,self.rightRatio,self.minPWM,self.maxPWM,self.minSpeed))
 
         self.sub = rospy.Subscriber("/cmd_vel", Twist, self.VelocityCallback)
-        self.wheelLPub = rospy.Publisher("/topower_v1/wheel_l_effort_controller/command",Float64,queue_size=1)
-        self.wheelRPub = rospy.Publisher("/topower_v1/wheel_r_effort_controller/command",Float64,queue_size=1)
+        self.wheelLPub = rospy.Publisher("/xr_tank/wheel_l_effort_controller/command",Float64,queue_size=1)
+        self.wheelRPub = rospy.Publisher("/xr_tank/wheel_r_effort_controller/command",Float64,queue_size=1)
 
     def VelocityCallback(self,msg):
         #twist.linear: x->forward, y->left, z->up

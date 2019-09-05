@@ -10,14 +10,13 @@
 
 #define PI 3.1415926
 #define DEG2RAD PI/180
-#define ARM_BASE 0
-#define ARM_A 1
-#define ARM_B 2
-#define GRIPPER_BASE 3
-#define GRIPPER 4
-#define CAM_PAN 5
-#define CAM_TILT 6
-#define JOINT_NUM 7
+#define ARM_A 0
+#define ARM_B 1
+#define GRIPPER_BASE 2
+#define GRIPPER 3
+#define CAM_PAN 4
+#define CAM_TILT 5
+#define JOINT_NUM 6
 
 #define WHEEL_L 0
 #define WHEEL_R 1
@@ -38,7 +37,7 @@ class XRTankHW : public hardware_interface::RobotHW{
             }
             //position controller: arm, cam pan tilt
             //joint state
-            const char* joint[] = {"joint_arm_base","joint_arm_a","joint_arm_b","joint_gripper_base","joint_gripper_l","joint_cam_pan","joint_cam_tilt"};
+            const char* joint[] = {"joint_arm_a","joint_arm_b","joint_gripper_base","joint_gripper_l","joint_cam_pan","joint_cam_tilt"};
             for(int i=0;i<JOINT_NUM;i++){
                 hardware_interface::JointStateHandle stateHandle(joint[i], &m_JointPose[i], &m_JointVel[i], &m_JointEff[i]);
                 m_JointStateInterface.registerHandle(stateHandle);
@@ -133,7 +132,6 @@ class XRTankHW : public hardware_interface::RobotHW{
         }
 
         void LoadOffsetScale(){
-            m_JointOffset[ARM_BASE] = 90;
             m_JointOffset[ARM_A] = 90;
             m_JointOffset[ARM_B] = 90;
             m_JointOffset[GRIPPER_BASE] = 90;
@@ -141,7 +139,6 @@ class XRTankHW : public hardware_interface::RobotHW{
             m_JointOffset[CAM_PAN] = 128;
             m_JointOffset[CAM_TILT] = 128;
 
-            m_JointScale[ARM_BASE] = -DEG2RAD;
             m_JointScale[ARM_A] = DEG2RAD;
             m_JointScale[ARM_B] = DEG2RAD;
             m_JointScale[GRIPPER_BASE] = DEG2RAD;

@@ -1,4 +1,4 @@
-topower_v1:
+xr_tank:
   # Publish all joint states -----------------------------------
   joint_state_controller:
     type: joint_state_controller/JointStateController
@@ -16,11 +16,6 @@ topower_v1:
         p: 0.1
         i: 0
         d: 0.01
-        i_clamp: 1
-      joint_arm_base:
-        p: 100
-        i: 1
-        d: 1
         i_clamp: 1
       joint_arm_a:
         p: 100
@@ -66,16 +61,10 @@ topower_v1:
   arm_controller:
     type: "position_controllers/JointTrajectoryController"
     joints:
-      - joint_arm_base
       - joint_arm_a
       - joint_arm_b
       - joint_gripper_base
     gains:
-      joint_arm_base:
-        p: 100
-        d: 1
-        i: 1
-        i_clamp: 1
       joint_arm_a:
         p: 100
         d: 1
