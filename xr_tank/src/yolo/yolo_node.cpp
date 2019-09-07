@@ -99,7 +99,7 @@ int main(int argc, char **argv){
     ros::NodeHandle nh;
 
     std::string cfgfile, weightfile,namefile,optionfile;
-    std::string nodePath = ros::package::getPath("topower_v1");
+    std::string nodePath = ros::package::getPath("xr_tank");
     nh.param<std::string>("cfgfile", cfgfile, nodePath+"/config/cfg.fake-tomato/yolov3-tiny.cfg");
     nh.param<std::string>("weightfile", weightfile, nodePath+"/config/cfg.fake-tomato/yolov3-tiny.weight");
     nh.param<std::string>("namefile", namefile, nodePath+"/config/cfg.fake-tomato/obj.names");
@@ -114,9 +114,9 @@ int main(int argc, char **argv){
     srand(2222222);
 
     cvNamedWindow("image");
-    //ros::Subscriber sub = nh.subscribe("/topower_v1/camera/image/raw",1,imageCallback); //for raw image
-    yoloPub = nh.advertise<sensor_msgs::CompressedImage>("/topower_v1/camera/yolo_result/compressed", 1);
-    ros::Subscriber sub = nh.subscribe("/topower_v1/camera/image_raw/compressed",1,imageCallback);  //for compressed image
+    //ros::Subscriber sub = nh.subscribe("/xr_tank/camera/image/raw",1,imageCallback); //for raw image
+    yoloPub = nh.advertise<sensor_msgs::CompressedImage>("/xr_tank/camera/yolo_result/compressed", 1);
+    ros::Subscriber sub = nh.subscribe("/xr_tank/camera/image_raw/compressed",1,imageCallback);  //for compressed image
     ros::spin();
     return 0;
 }
