@@ -78,8 +78,8 @@ int main(int argc, char **argv){
 
     cvNamedWindow("image");
     
-    aprilTagPub = nh.advertise<sensor_msgs::CompressedImage>("/topower_v1/camera/apriltag/compressed", 1);
-    ros::Subscriber sub = nh.subscribe("/topower_v1/camera/image_raw/compressed",1,imageCallback);  //for compressed image
+    aprilTagPub = nh.advertise<sensor_msgs::CompressedImage>("/xr_tank/camera/apriltag/compressed", 1);
+    ros::Subscriber sub = nh.subscribe("/xr_tank/camera/image_raw/compressed",1,imageCallback);  //for compressed image
     ros::spin();
 
     apriltag_detector_destroy(td);
