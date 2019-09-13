@@ -1,2 +1,2 @@
-int16 leftSpeed
-int16 rightSpeed
+float32 leftSpeed
+float32 rightSpeed

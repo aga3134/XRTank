@@ -1,4 +1,4 @@
-uint8 armAPos
-uint8 armBPos
-uint8 gripperBasePos
-uint8 gripperPos
+float32 armAPos
+float32 armBPos
+float32 gripperBasePos
+float32 gripperPos

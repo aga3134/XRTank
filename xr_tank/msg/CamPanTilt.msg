@@ -1,2 +1,2 @@
-uint8 panPos
-uint8 tiltPos
+float32 panPos
+float32 tiltPos
