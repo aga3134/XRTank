@@ -5,6 +5,7 @@ from xr_tank.msg import ArmPose,CamPanTilt,WheelDrive
 
 import RPi.GPIO as GPIO
 import time
+import math
 
 JOINT_CAM_PAN=31
 JOINT_CAM_TILT=32
@@ -49,32 +50,32 @@ class XRDriver():
         self.leftForward = GPIO.PWM(LEFT_FORWARD,freq)
         self.leftBackward = GPIO.PWM(LEFT_BACKWARD,freq)
 
-        self.camPanMin = rospy.get_param("~camPanMin",-90)
-        self.camPanMax = rospy.get_param("~camPanMax",30)
+        self.camPanMin = rospy.get_param("~camPanMin",-0.5*math.pi)
+        self.camPanMax = rospy.get_param("~camPanMax",math.pi/6)
         #self.camPanPWMInit = rospy.get_param("~camPanPWMInit",85)
         self.camPanPWMMin = rospy.get_param("~camPanPWMMin",20)
         self.camPanPWMMax = rospy.get_param("~camPanPWMMax",99)
         
-        self.camTiltMin = rospy.get_param("~camTiltMin",-90)
+        self.camTiltMin = rospy.get_param("~camTiltMin",-0.5*math.pi)
         self.camTiltMax = rospy.get_param("~camTiltMax",0)
         #self.camTiltPWMInit = rospy.get_param("~camTiltPWMInit",20)
         self.camTiltPWMMin = rospy.get_param("~camTiltPWMMin",99)
         self.camTiltPWMMax = rospy.get_param("~camTiltPWMMax",20)
         
-        self.armAMin = rospy.get_param("~armAMin",-30)
-        self.armAMax = rospy.get_param("~armAMax",90)
+        self.armAMin = rospy.get_param("~armAMin",-math.pi/6)
+        self.armAMax = rospy.get_param("~armAMax",0.5*math.pi)
         #self.armAPWMInit = rospy.get_param("~armAPWMInit",70)
         self.armAPWMMin = rospy.get_param("~armAPWMMin",99)
         self.armAPWMMax = rospy.get_param("~armAPWMMax",20)
         
         self.armBMin = rospy.get_param("~armBMin",0)
-        self.armBMax = rospy.get_param("~armBMax",120)
+        self.armBMax = rospy.get_param("~armBMax",math.pi*2/3)
         #self.armBPWMInit = rospy.get_param("~armBPWMInit",99)
         self.armBPWMMin = rospy.get_param("~armBPWMMin",99)
         self.armBPWMMax = rospy.get_param("~armBPWMMax",20)
         
-        self.gripperBaseMin = rospy.get_param("~gripperBaseMin",-90)
-        self.gripperBaseMax = rospy.get_param("~gripperBaseMax",90)
+        self.gripperBaseMin = rospy.get_param("~gripperBaseMin",-0.5*math.pi)
+        self.gripperBaseMax = rospy.get_param("~gripperBaseMax",0.5*math.pi)
         #self.gripperBasePWMInit = rospy.get_param("~gripperBasePWMInit",70)
         self.gripperBasePWMMin = rospy.get_param("~gripperBasePWMMin",99)
         self.gripperBasePWMMax = rospy.get_param("~gripperBasePWMMax",20)
