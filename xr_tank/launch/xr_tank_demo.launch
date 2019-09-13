@@ -52,7 +52,7 @@
   respawn="false" output="screen">
     <remap from="/joint_states" to="/xr_tank/joint_states"/>
   </node>
-  
+
   <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find xr_tank)/config/xr_tank_moveit.rviz"/>-->
 
 

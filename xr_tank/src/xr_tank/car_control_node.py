@@ -10,8 +10,8 @@ class CarControl():
         self.leftRatio = rospy.get_param("~leftRatio",1)
         self.rightRatio = rospy.get_param("~rightRatio",1)
         self.turnRatio = rospy.get_param("~turnRatio",1)
-        self.minPWM = rospy.get_param("~minPWM",60)
-        self.maxPWM = rospy.get_param("~maxPWM",255)
+        self.minPWM = rospy.get_param("~minPWM",0)
+        self.maxPWM = rospy.get_param("~maxPWM",100)
         self.minSpeed = rospy.get_param("~minSpeed",0.1)
         self.speed = 0  #range = -1~1
         self.turnSpeed = 0  #range = -1~1
@@ -48,9 +48,8 @@ class CarControl():
         rightSpeed = self.rightRatio*0.5*(self.speed+self.turnSpeed*self.turnRatio)
         leftPWM = self.ComputePWM(leftSpeed)
         rightPWM = self.ComputePWM(rightSpeed)
-        scale = 0.2/255.0
-        self.wheelLPub.publish(scale*leftPWM)
-        self.wheelRPub.publish(scale*rightPWM)
+        self.wheelLPub.publish(leftPWM)
+        self.wheelRPub.publish(rightPWM)
 
 
 if __name__ == '__main__':

@@ -7,13 +7,24 @@ joint_limits:
     max_velocity: 0.9
     has_acceleration_limits: false
     max_acceleration: 0
+    has_position_limits: true
+    max_position: 1.57
+    min_position: -0.52
   joint_arm_b:
     has_velocity_limits: true
     max_velocity: 0.9
     has_acceleration_limits: false
     max_acceleration: 0
+    has_position_limits: true
+    max_position: 2.1
+    min_position: 0
+
   joint_gripper_base:
     has_velocity_limits: true
     max_velocity: 0.9
     has_acceleration_limits: false
     max_acceleration: 0
+    has_position_limits: true
+    max_position: 1.57
+    min_position: -1.57
+

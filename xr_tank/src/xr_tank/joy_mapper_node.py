@@ -21,13 +21,12 @@ class JoyMapper():
         self.mode = "car"
 
         self.updateRate = rospy.get_param("~updateRate",30)
-
-        self.panMin = rospy.get_param("~panMin",-2*math.pi/3)
-        self.panMax = rospy.get_param("~panMax",2*math.pi/3)
+        self.panMin = rospy.get_param("~panMin",-0.5*math.pi)
+        self.panMax = rospy.get_param("~panMax",math.pi/6)
         self.tiltMin = rospy.get_param("~tiltMin",-0.5*math.pi)
-        self.tiltMax = rospy.get_param("~tiltMax",0.5*math.pi)
-        self.gripperPosMin = rospy.get_param("~gripperPosMin",-0.035)
-        self.gripperPosMax = rospy.get_param("~gripperPosMax",0)
+        self.tiltMax = rospy.get_param("~tiltMax",0)
+        self.gripperPosMin = rospy.get_param("~gripperPosMin",0)
+        self.gripperPosMax = rospy.get_param("~gripperPosMax",0.03)
 
         self.leftStickX = rospy.get_param("~leftStickX",0)
         self.leftStickY = rospy.get_param("~leftStickY",1)
